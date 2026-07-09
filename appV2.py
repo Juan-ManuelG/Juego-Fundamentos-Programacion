@@ -7,9 +7,7 @@ def mostrarCartas(nombre):
     carta1=["Q", "♥"]#carta ganadora
     carta2=["8", "♣"]
     carta3=["J", "♦"]
-    posiciones=["Q", "8", "J"]
-    posicionGanadora=posiciones[0]
-    posicionGanadora = random.choice(["Q", "8", "J"])
+
     print("┌───┐ ┌───┐ ┌───┐")
     print(f"|{carta1[0]}  | |{carta2[0]}  | |{carta3[0]}  |")
     print(f"| {carta1[1]} | | {carta2[1]} | | {carta3[1]} |")
@@ -30,11 +28,24 @@ def mostrarCartas(nombre):
         ("D", "I", "derecha (D) con izquierda (I)"),
         ("I", "D", "izquierda (I) con derecha (D)"),
         ]
+    posiciones = {"I": "Q♥", 
+                  "M": "8♣", 
+                  "D": "J♦"}
     
-    movimientosIntercambio=random.sample(intercambios, 5) #movimientos
-    for mueve in movimientosIntercambio:
-        print(f"Intercambio {mueve}")
-    cartaCorrecta(carta1, carta2, carta3, nombre, posicionGanadora)
+    movimientosIntercambio = random.sample(intercambios, 5)
+
+    for pos1, pos2, descripcion in movimientosIntercambio:
+        print(f"Intercambio {descripcion}...")
+        aux=posiciones[pos1]
+        posiciones[pos1]=posiciones[pos2]
+        posiciones[pos2]=aux
+    
+    for posicion, carta in posiciones.items():
+        if carta == "Q♥":
+            posicionGanadora=posicion
+            break
+    
+    cartaCorrecta(carta1, carta2, carta3, nombre, posicionGanadora, posiciones)
 
 
 def jugar():
@@ -58,7 +69,7 @@ def jugar():
     if accion=="S":
         print("¡Adiós!")
     
-def cartaCorrecta(carta1, carta2, carta3, nombre, posicionGanadora):
+def cartaCorrecta(carta1, carta2, carta3, nombre, posicionGanadora, posiciones):
     opcionCarta=input("¿En cuál de las cartas está la reina de corazones? [I], [M], [D]: ").upper()
     
 
@@ -77,7 +88,7 @@ def cartaCorrecta(carta1, carta2, carta3, nombre, posicionGanadora):
         print("Lo siento perdedor(a) :-(")
         print("¡Gracias por jugar!")
 
-    ordenFinal(carta1, carta2, carta3)
+    ordenFinal(posiciones)
 
     
 def tablaPosiciones():
@@ -88,11 +99,21 @@ def tablaPosiciones():
     
     
 
-def ordenFinal(carta1, carta2, carta3):
-        print("┌───┐ ┌───┐ ┌───┐")
-        print(f"|{carta3[0]}  | |{carta2[0]}  | |{carta1[0]}  |")
-        print(f"| {carta3[1]} | | {carta2[1]} | | {carta1[1]} |")
-        print(f"|  {carta3[0]}| |  {carta2[0]}| |  {carta1[0]}|")
-        print("└───┘ └───┘ └───┘")
+def ordenFinal(posiciones):
+
+    valorIzq=posiciones["I"][0]
+    llaveIzq=posiciones["I"][1]
+    
+    valorMedio=posiciones["M"][0]
+    llaveMedio=posiciones["M"][1]
+    
+    valorDer=posiciones["D"][0]
+    llaveDer=posiciones["D"][1]
+
+    print("┌───┐ ┌───┐ ┌───┐")
+    print(f"|{valorIzq}  | |{valorMedio}  | |{valorDer}  |")
+    print(f"| {llaveIzq} | | {llaveMedio} | | {llaveDer} |")
+    print(f"|  {valorIzq}| |  {valorMedio}| |  {valorDer}|")
+    print("└───┘ └───┘ └───┘")
 
 jugar()
