@@ -108,7 +108,7 @@ def cartaCorrecta(nombre, posicionGanadora, posiciones, existe):
                 else: #Si la comparacion es False lo agrego tal cual esta a la lista lineas
                     lineas.append(i)
 
-        if not existe: #si es un jugador nuevo en el juego 
+        if not existe: #si es un jugador nuevo en el juego, pues existe =False desde funcion jugador
             lineas.append(f"{nombre}, {puntosTotal} puntos. Jugada {fecha} {hora}\n")
 
 
@@ -132,7 +132,6 @@ def tablaPosiciones():
     with open("puntajes.txt", "r") as puntajes:
         for puntos in puntajes:
             lista.append(puntos.strip())#Recorro el archivo y guardo cada linea en la lista
-    print(lista)
     lista.sort(key=lambda x: int(x.split(",")[1].split()[0]), reverse=True) #Ordeno por el puntaje accediendo a el con x.split(",")[1].split()[0] 
 
     with open("puntajes.txt", "w") as puntaje:#Reescribo el archivo borrando todo y vaceando la lista en el
